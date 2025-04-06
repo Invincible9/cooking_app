@@ -119,9 +119,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     }
 
     /**
-     * @param string $username
+     * @param string|null $username
      */
-    public function setUsername(string $username): void
+    public function setUsername(?string $username): void
     {
         $this->username = $username;
     }
