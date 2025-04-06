@@ -12,10 +12,10 @@ use Doctrine\ORM\EntityManagerInterface;
 class CourseService
 {
     public function __construct(
-        private UserCourseViewRepository $viewRepository,
-        private CourseRepository $courseRepository,
-        private readonly EntityManagerInterface $em,
-        private string $courseAccessDelay // injected from parameters.yaml
+        private readonly UserCourseViewRepository $viewRepository,
+        private readonly CourseRepository         $courseRepository,
+        private readonly EntityManagerInterface   $em,
+        private readonly string                   $courseAccessDelay // injected from parameters.yaml
     ) {}
 
     public function canAccessCourse(User $user): bool
