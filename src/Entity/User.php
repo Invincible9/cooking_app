@@ -8,6 +8,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ORM\Table(name: '`user`')]
@@ -19,15 +20,20 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private ?int $id = null;
 
+    #[Assert\NotBlank]
+    #[Assert\Email]
     #[ORM\Column(length: 180)]
     private ?string $email = null;
 
+    #[Assert\NotBlank]
+    #[Assert\Length(min: 3)]
     #[ORM\Column(length: 255)]
     private ?string $username = null;
 
-    /**
-     * @var list<string> The user roles
-     */
+    #[Assert\Length(min: 3)]
+    #[ORM\Column(length: 255)]
+    private ?string $password = null;
+
     #[ORM\Column]
     private array $roles = [];
 
@@ -38,12 +44,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         $this->views = new ArrayCollection();
     }
-
-    /**
-     * @var string|null The hashed password
-     */
-    #[ORM\Column]
-    private ?string $password = null;
 
     public function getId(): ?int
     {

@@ -45,3 +45,12 @@ It includes user authentication, role-based access control, and custom logic lim
 
 6. **Start the dev server**
    - symfony server:start
+
+7.  **Run Tests**
+    - php bin/phpunit
+
+
+- Default Users (from Fixtures)
+    - Admin
+    - Email: admin@admin.com
+    - Password: admin

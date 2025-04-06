@@ -1,0 +1,27 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+    <div class="container body-content">
+        <div class="row">
+
+            {% for course in courses %}
+                <div class="col-md-6">
+                    <article>
+                        <header>
+                            <h2>{{ course.name }}</h2>
+                        </header>
+
+                        <footer>
+                            <div class="pull-right">
+                                <a class="btn btn-primary btn-xs"
+                                   href="{{ path('course_view', {id: course.id}) }}">Read more &raquo;</a>
+                            </div>
+                        </footer>
+                    </article>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+
+{% endblock %}

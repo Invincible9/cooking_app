@@ -2,13 +2,19 @@
 
 namespace App\Service;
 
+use App\Entity\Course;
 use App\Entity\User;
+use App\Entity\UserCourseView;
+use App\Repository\CourseRepository;
 use App\Repository\UserCourseViewRepository;
+use Doctrine\ORM\EntityManagerInterface;
 
 class CourseService
 {
     public function __construct(
         private UserCourseViewRepository $viewRepository,
+        private CourseRepository $courseRepository,
+        private readonly EntityManagerInterface $em,
         private string $courseAccessDelay // injected from parameters.yaml
     ) {}
 
@@ -34,5 +40,20 @@ class CourseService
         $lastViewedAt = $lastView->getViewedAt();
         $threshold = new \DateTimeImmutable('-' . $this->courseAccessDelay);
         return $lastViewedAt < $threshold;
+    }
+
+    public function getAllCourses(): array
+    {
+        return $this->courseRepository->findAll();
+    }
+
+    public function saveUserCourseView(User $user, Course $course) : void
+    {
+        $view = new UserCourseView();
+        $view->setUser($user);
+        $view->setCourse($course);
+        $view->setViewedAt(new \DateTimeImmutable());
+        $this->em->persist($view);
+        $this->em->flush();
     }
 }
