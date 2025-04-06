@@ -51,6 +51,9 @@ It includes user authentication, role-based access control, and custom logic lim
 
 
 - Default Users (from Fixtures)
-    - Admin
-    - Email: admin@admin.com
-    - Password: admin
+    - **Admin**
+      - Email: admin@admin.com
+      - Password: admin
+    - **User**
+      - Email: user@user.com
+      - Password: user
