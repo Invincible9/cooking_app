@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\CourseRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: CourseRepository::class)]
@@ -18,6 +20,14 @@ class Course
 
     #[ORM\Column(length: 255)]
     private ?string $youtubeUrl = null;
+
+    #[ORM\OneToMany(targetEntity: UserCourseView::class, mappedBy: 'course')]
+    private Collection $views;
+
+    public function __construct()
+    {
+        $this->views = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -46,5 +56,21 @@ class Course
         $this->youtubeUrl = $youtubeUrl;
 
         return $this;
+    }
+
+    /**
+     * @return Collection
+     */
+    public function getViews(): Collection
+    {
+        return $this->views;
+    }
+
+    /**
+     * @param Collection $views
+     */
+    public function setViews(Collection $views): void
+    {
+        $this->views = $views;
     }
 }

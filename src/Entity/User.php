@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -28,6 +30,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     #[ORM\Column]
     private array $roles = [];
+
+    #[ORM\OneToMany(targetEntity: UserCourseView::class, mappedBy: 'user')]
+    private Collection $views;
+
+    public function __construct()
+    {
+        $this->views = new ArrayCollection();
+    }
 
     /**
      * @var string|null The hashed password
@@ -124,5 +134,21 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setUsername(?string $username): void
     {
         $this->username = $username;
+    }
+
+    /**
+     * @return Collection
+     */
+    public function getViews(): Collection
+    {
+        return $this->views;
+    }
+
+    /**
+     * @param Collection $views
+     */
+    public function setViews(Collection $views): void
+    {
+        $this->views = $views;
     }
 }

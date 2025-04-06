@@ -3,8 +3,9 @@
 namespace App\Controller;
 
 use App\Entity\User;
-use App\Form\RegistrationFormType;
+use App\Form\RegisterFormType;
 use App\Security\LoginFormAuthenticator;
+use App\Service\CourseService;
 use App\Service\UserService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -27,7 +28,7 @@ class UserController extends AbstractController
         }
 
         $user = new User();
-        $form = $this->createForm(RegistrationFormType::class, $user);
+        $form = $this->createForm(RegisterFormType::class, $user);
         $form->handleRequest($request);
         
         if ($form->isSubmitted() && $form->isValid()) {
@@ -40,4 +41,15 @@ class UserController extends AbstractController
             'form' => $form->createView(),
         ]);
     }
+
+    #[Route('/profile', name: 'user_profile')]
+    public function profile(UserService $userService, CourseService $courseAccessService): Response
+    {
+        $currentUser = $userService->getCurrentUser();
+
+        return $this->render('users/profile.html.twig', [
+            'user' => $currentUser,
+        ]);
+    }
+
 }
